@@ -67,3 +67,11 @@ kernel.kptr_restrict = 1
 EOF
 sysctl --system || true
 
+#
+# 8. SSH hardening (safe subset)
+#
+echo "[+] Applying SSH hardening"
+sed -i 's/^#*PermitRootLogin.*/PermitRootLogin no/' /etc/ssh/sshd_config
+sed -i 's/^#*PasswordAuthentication.*/PasswordAuthentication no/' /etc/ssh/sshd_config
+sed -i 's/^#*PubkeyAuthentication.*/PubkeyAuthentication yes/' /etc/ssh/sshd_config
+
