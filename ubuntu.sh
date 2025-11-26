@@ -34,3 +34,19 @@ echo "[+] Updating password aging for existing users"
 for u in $(awk -F: '($3 >= 1000 && $3 < 65534) {print $1}' /etc/passwd); do
     chage --maxdays 90 --mindays 1 --warndays 14 "$u" || true
 done
+
+#
+# 5. Filesystem permission hardening (safe)
+#
+echo "[+] Securing /etc permissions"
+chmod 0755 /etc
+chmod 0644 /etc/passwd
+chmod 0644 /etc/group
+chmod 0640 /etc/shadow
+chmod 0640 /etc/gshadow
+
+#
+# 6. Disable core dumps (safe)
+#
+echo "[+] Disabling core dumps"
+echo '* hard core 0' > /etc/security/limits.d/99-hardening.conf
