@@ -75,3 +75,13 @@ sed -i 's/^#*PermitRootLogin.*/PermitRootLogin no/' /etc/ssh/sshd_config
 sed -i 's/^#*PasswordAuthentication.*/PasswordAuthentication no/' /etc/ssh/sshd_config
 sed -i 's/^#*PubkeyAuthentication.*/PubkeyAuthentication yes/' /etc/ssh/sshd_config
 
+
+#
+# 10. Logrotate hardening (safe)
+#
+echo "[+] Securing logrotate config"
+sed -i 's/^create.*/create 0640 root adm/' /etc/logrotate.conf
+
+
+echo "[+] GUI-safe CIS hardening completed successfully"
+exit 0
