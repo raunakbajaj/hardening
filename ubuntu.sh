@@ -50,3 +50,20 @@ chmod 0640 /etc/gshadow
 #
 echo "[+] Disabling core dumps"
 echo '* hard core 0' > /etc/security/limits.d/99-hardening.conf
+
+#
+# 7. Configure sysctl network hardening (safe subset)
+#
+echo "[+] Applying sysctl safe network settings"
+cat <<EOF >/etc/sysctl.d/99-safe-hardening.conf
+net.ipv4.ip_forward = 0
+net.ipv4.conf.all.accept_redirects = 0
+net.ipv4.conf.default.accept_redirects = 0
+net.ipv4.conf.all.accept_source_route = 0
+net.ipv4.conf.default.accept_source_route = 0
+net.ipv4.conf.all.log_martians = 1
+net.ipv4.conf.default.log_martians = 1
+kernel.kptr_restrict = 1
+EOF
+sysctl --system || true
+
