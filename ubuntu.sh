@@ -77,10 +77,29 @@ sed -i 's/^#*PubkeyAuthentication.*/PubkeyAuthentication yes/' /etc/ssh/sshd_con
 
 
 #
+# 9. Remove world-writable permissions (safe)
+#
+echo "[+] Removing world-writable permissions"
+find / -xdev -type f -perm -0002 -exec chmod o-w {} + || true
+find / -xdev -type d -perm -0002 -exec chmod o-t {} + || true
+
+#
 # 10. Logrotate hardening (safe)
 #
 echo "[+] Securing logrotate config"
 sed -i 's/^create.*/create 0640 root adm/' /etc/logrotate.conf
+
+#
+# 11. Enable firewall (ufw, safe)
+#
+echo "[+] Enabling UFW firewall"
+apt-get install -y ufw
+ufw default deny incoming
+ufw default allow outgoing
+ufw --force enable
+
+
+
 
 function main {
   clear
@@ -196,7 +215,6 @@ function main {
     source "$s"
   done
 
-  f_pre
   
 
   echo
