@@ -215,7 +215,7 @@ function main {
     source "$s"
   done
 
-  
+  f_kernel
 
   echo
 }
