@@ -99,131 +99,90 @@ ufw default allow outgoing
 ufw --force enable
 
 
+#Custom script 
+
+#Disable root login via ssh
+sudo sed -i '/^#\?PermitRootLogin/s/^#\?PermitRootLogin.*/PermitRootLogin no/' /etc/ssh/sshd_config || echo 'PermitRootLogin no' | sudo tee -a /etc/ssh/sshd_config
+#sudo systemctl restart sshd
+
+#libpam-tmpdir is a PAM module that automatically creates a private temporary directory (/tmp and /var/tmp) for each user session to avoid common dir
+sudo apt install libpam-tmpdir -y
 
 
-function main {
-  clear
+#apt-listchanges — Show changelogs and security updates before upgrading
+sudo apt install apt-listchanges -y
 
-  REQUIREDPROGS='arp dig ping w'
-  REQFAILED=0
-  for p in $REQUIREDPROGS; do
-    if ! command -v "$p" >/dev/null 2>&1; then
-      echo "$p is required."
-      REQFAILED=1
-    fi
-  done
+#needrestart — Detects daemons needing restart after updates
 
-  if [ $REQFAILED = 1 ]; then
-    apt-get -qq update
-    apt-get -qq install bind9-dnsutils iputils-ping net-tools procps --no-install-recommends
-  fi
+#fail2ban — Protects SSH and other services from brute-force attacks
+sudo apt install fail2ban -y
+sudo systemctl enable --now fail2ban
+sudo cp /etc/fail2ban/jail.conf /etc/fail2ban/jail.local
+sudo chmod 600 /etc/fail2ban/jail.local
+#sudo systemctl restart fail2ban
 
-  ARPBIN="$(command -v arp)"
-  DIGBIN="$(command -v dig)"
-  PINGBIN="$(command -v ping)"
-  WBIN="$(command -v w)"
-  WHOBIN="$(command -v who)"
-  LXC="0"
 
-  if resolvectl status >/dev/null 2>&1; then
-    SERVERIP="$(ip route get "$(resolvectl status |\
-      grep -E 'DNS (Server:|Servers:)' | tail -n1 |\
-      awk '{print $NF}')" | grep -Eo '[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+' |\
-      tail -n1)"
-  else
-    SERVERIP="$(ip route get "$(grep '^nameserver' /etc/resolv.conf |\
-      tail -n1 | awk '{print $NF}')" |\
-      grep -Eo '[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+' | tail -n1)"
-  fi
+#nstalls Linux Auditing System components that are used to track and log security-relevant events — such as file access, privilege use, system calls, and policy violations
+sudo apt install auditd audispd-plugins
+sudo systemctl enable --now auditd
 
-  if grep -qE 'container=lxc|container=lxd' /proc/1/environ; then
-    LXC="1"
-  fi
+#Disable unused protocols
+sudo tee /etc/modprobe.d/disable-unused-protocols.conf > /dev/null <<EOF
+install dccp /bin/false
+install sctp /bin/false
+install rds /bin/false
+install tipc /bin/false
+EOF
+sudo update-initramfs -u
 
-  if grep -s "AUTOFILL='Y'" ./ubuntu.cfg; then
-    USERIP="$($WHOBIN | awk '{print $NF}' | tr -d '()' |\
-      grep -E '^[0-9]' | head -n1)"
+# Disable hard drive
+sudo tee /etc/modprobe.d/blacklist-usb-storage.conf > /dev/null <<EOF
+# Disable USB storage devices
+install usb-storage /bin/false
+EOF
 
-    if [[ "$USERIP" =~ ^[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
-      ADMINIP="$USERIP"
-    else
-      ADMINIP="$(hostname -I | sed -E 's/\.[0-9]+ /.0\/24 /g')"
-    fi
+sudo update-initramfs -u
 
-    sed -i "s/FW_ADMIN='/FW_ADMIN='$ADMINIP /" ./ubuntu.cfg
-    sed -i "s/SSH_GRPS='/SSH_GRPS='$(id "$($WBIN -ih | awk '{print $1}' | head -n1)" -ng) /" ./ubuntu.cfg
-    sed -i "s/CHANGEME=''/CHANGEME='$(date +%s)'/" ./ubuntu.cfg
-    sed -i "s/VERBOSE='N'/VERBOSE='Y'/" ./ubuntu.cfg
-  fi
 
-  source ./ubuntu.cfg
 
-  readonly ADDUSER
-  readonly ADMINEMAIL
-  readonly ARPBIN
-  readonly AUDITDCONF
-  readonly AUDITD_MODE
-  readonly AUDITD_RULES
-  readonly AUDITRULES
-  readonly AUTOFILL
-  readonly CHANGEME
-  readonly COMMONACCOUNT
-  readonly COMMONAUTH
-  readonly COMMONPASSWD
-  readonly COREDUMPCONF
-  readonly DEFAULTGRUB
-  readonly DISABLEFS
-  readonly DISABLEMOD
-  readonly DISABLENET
-  readonly FAILLOCKCONF
-  readonly FW_ADMIN
-  readonly JOURNALDCONF
-  readonly KEEP_SNAPD
-  readonly LIMITSCONF
-  readonly LOGINDCONF
-  readonly LOGINDEFS
-  readonly LOGROTATE
-  readonly LOGROTATE_CONF
-  readonly LXC
-  readonly NTPSERVERPOOL
-  readonly PAMLOGIN
-  readonly PSADCONF
-  readonly PSADDL
-  readonly RESOLVEDCONF
-  readonly RKHUNTERCONF
-  readonly RSYSLOGCONF
-  readonly SECURITYACCESS
-  readonly SERVERIP
-  readonly SSHDFILE
-  readonly SSHFILE
-  readonly SSH_GRPS
-  readonly SSH_PORT
-  readonly SYSCTL
-  readonly SYSCTL_CONF
-  readonly SYSTEMCONF
-  readonly TIMEDATECTL
-  readonly TIMESYNCD
-  readonly UFWDEFAULT
-  readonly USERADD
-  readonly USERCONF
-  readonly VERBOSE
-  readonly WBIN
+#Unauth banner
+sudo tee /etc/issue > /dev/null <<EOF
+****************************************************************
+* WARNING: Unauthorized access to this system is prohibited  *
+* All activities are monitored and logged.                    *
+* Disconnect immediately if you are not an authorized user.   *
+****************************************************************
+EOF
 
-  for s in ./scripts/*; do
-    [[ -f $s ]] || break
 
-    source "$s"
-  done
+sudo tee /etc/issue.net > /dev/null <<EOF
+****************************************************************
+* WARNING: Unauthorized access to this system is prohibited   *
+* All activities are monitored and logged.                    *
+* Disconnect immediately if you are not an authorized user.   *
+****************************************************************
+EOF
 
-  f_kernel
+sudo sed -i '/^#\?Banner/ c\Banner /etc/issue.net' /etc/ssh/sshd_config 
 
-  echo
-}
 
-LOGFILE="hardening-$(hostname --short)-$(date +%y%m%d).log"
-echo "[HARDENING LOG - $(hostname --fqdn) - $(LANG=C date)]" >> "$LOGFILE"
 
-main "$@" | tee -a "$LOGFILE"
+sudo tee /etc/sysctl.d/99-cis.conf > /dev/null <<EOF
+# Disable source routing
+net.ipv4.conf.all.accept_source_route = 0
+net.ipv4.conf.default.accept_source_route = 0
+
+# Example: Enable IP spoofing protection
+net.ipv4.conf.all.rp_filter = 1
+net.ipv4.conf.default.rp_filter = 1
+EOF
+
+sudo sysctl --system
+
+
+
+sudo dpkg --configure -a
+sudo apt install -f -y
 
 echo "[+] GUI-safe CIS hardening completed successfully"
 exit 0
