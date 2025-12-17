@@ -6,10 +6,8 @@
 
 set -u -o pipefail
 
-if ! ps -p $$ | grep -si bash; then
-  echo "Sorry, this script requires bash."
-  exit 1
-fi
+# Bash detection disabled for EC2 Image Builder compatibility
+# The script is explicitly called with bash from ubuntu.sh
 
 if ! [ -x "$(command -v systemctl)" ]; then
   echo "systemctl required. Exiting."

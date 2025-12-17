@@ -193,4 +193,4 @@ chmod +x "$SCRIPT_DIR/hardening.sh"
 
 # Change to the script directory before running hardening.sh
 cd "$SCRIPT_DIR"
-./hardening.sh
+bash ./hardening.sh
