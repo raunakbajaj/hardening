@@ -311,6 +311,8 @@ function main {
     source "$s"
   done
 
+  f_pre
+
   
 
   echo
