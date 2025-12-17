@@ -146,9 +146,9 @@ function main {
   f_journalctl
   f_timesyncd
   # f_fstab  # COMMENTED: Mount restrictions break GUI temp files and processes
-  f_prelink
-  f_aptget_configure
-  f_aptget
+  #f_prelink
+  #f_aptget_configure
+  #f_aptget
   #f_hosts
   #f_issue
   #f_sudo
