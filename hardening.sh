@@ -183,7 +183,7 @@ function main {
   # f_aa_enforce  # COMMENTED: AppArmor enforcement may break GUI applications
   # f_aide_post  # COMMENTED: File integrity checking may interfere with GUI
   # f_aide_timer  # COMMENTED: File integrity checking may interfere with GUI
-  f_aptget_noexec
+  # f_aptget_noexec  # COMMENTED: /tmp remount operations fail in EC2 environment
   f_aptget_clean
   f_systemddelta
   f_post
