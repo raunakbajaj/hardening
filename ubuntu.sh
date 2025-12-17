@@ -186,4 +186,6 @@ sudo apt install -f -y
 
 set -euo pipefail
 
+chmod +x hardening.sh
+
 ./hardening.sh
