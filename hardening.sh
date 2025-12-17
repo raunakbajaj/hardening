@@ -139,10 +139,10 @@ function main {
   f_firewall
   f_disablenet
   f_disablefs
-  f_disablemod
+  # f_disablemod  # COMMENTED: Disables USB, Bluetooth, sound - breaks GUI
   f_systemdconf
   f_resolvedconf
-  f_logindconf
+  # f_logindconf  # COMMENTED: Auto-locks sessions, kills user processes - breaks GUI
   f_journalctl
   f_timesyncd
   f_fstab
@@ -160,27 +160,27 @@ function main {
   f_package_install
   f_psad
   f_coredump
-  f_usbguard
+  # f_usbguard  # COMMENTED: Blocks USB devices - breaks GUI peripherals
   f_postfix
   f_apport
   f_motdnews
   f_rkhunter
   f_sshconfig
   f_sshdconfig
-  f_password
+  # f_password  # COMMENTED: Strict password policies may lock out GUI users
   f_cron
-  f_ctrlaltdel
+  # f_ctrlaltdel  # COMMENTED: Disables Ctrl+Alt+Del - may confuse GUI users
   f_auditd
   f_aide
   f_rhosts
-  f_users
-  f_lockroot
-  f_package_remove
+  # f_users  # COMMENTED: Removes system users that GUI might need
+  # f_lockroot  # COMMENTED: Locks root account - may break GUI admin tasks
+  # f_package_remove  # COMMENTED: Removes packages that GUI might depend on
   f_suid
-  f_restrictcompilers
+  # f_restrictcompilers  # COMMENTED: May break development tools in GUI
   f_umask
   f_path
-  f_aa_enforce
+  # f_aa_enforce  # COMMENTED: AppArmor enforcement may break GUI applications
   f_aide_post
   f_aide_timer
   f_aptget_noexec
