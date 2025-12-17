@@ -141,14 +141,14 @@ function main {
   # f_disablefs  # COMMENTED: May disable filesystems GUI needs
   # f_disablemod  # COMMENTED: Disables USB, Bluetooth, sound - breaks GUI
   # f_systemdconf  # COMMENTED: Process limits too restrictive for GUI
-  #f_resolvedconf
+  f_resolvedconf
   # f_logindconf  # COMMENTED: Auto-locks sessions, kills user processes - breaks GUI
-  #f_journalctl
-  #f_timesyncd
+  f_journalctl
+  f_timesyncd
   # f_fstab  # COMMENTED: Mount restrictions break GUI temp files and processes
-  #f_prelink
-  #f_aptget_configure
-  #f_aptget
+  f_prelink
+  f_aptget_configure
+  f_aptget
   #f_hosts
   #f_issue
   #f_sudo
