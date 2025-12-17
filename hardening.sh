@@ -134,36 +134,45 @@ function main {
     source "$s"
   done
 
+  # Confirmed start 
   f_pre
+  f_journalctl
+  f_timesyncd
+  f_resolvedconf
+  # Confirmed end
+
+  # Doubt start 
+  f_adduser
+  f_rootaccess
+  f_coredump
+  f_aptget
+  f_postfix
+  f_apport
+  f_motdnews
+  # Doubt end  
   # f_kernel  # COMMENTED: Kernel lockdown may break GUI drivers
   #f_firewall
   # f_disablenet  # COMMENTED: May disable network protocols GUI needs
   # f_disablefs  # COMMENTED: May disable filesystems GUI needs
   # f_disablemod  # COMMENTED: Disables USB, Bluetooth, sound - breaks GUI
   # f_systemdconf  # COMMENTED: Process limits too restrictive for GUI
-  f_resolvedconf
   # f_logindconf  # COMMENTED: Auto-locks sessions, kills user processes - breaks GUI
-  f_journalctl
-  f_timesyncd
   # f_fstab  # COMMENTED: Mount restrictions break GUI temp files and processes
   #f_prelink
   #f_aptget_configure
-  #f_aptget
+  
   #f_hosts
   #f_issue
   #f_sudo
   #f_logindefs
   # f_sysctl  # COMMENTED: Network restrictions may break GUI networking
   # f_limitsconf  # COMMENTED: Process limits too restrictive for GUI
-  #f_adduser
-  #f_rootaccess
+  
   # f_package_install  # COMMENTED: May install conflicting packages
   # f_psad  # COMMENTED: Aggressive intrusion detection may block GUI
-  #f_coredump
+  
   # f_usbguard  # COMMENTED: Blocks USB devices - breaks GUI peripherals
-  #f_postfix
-  #f_apport
-  #f_motdnews
+  
   # f_rkhunter  # COMMENTED: May interfere with GUI file operations
   #f_sshconfig
   #f_sshdconfig
