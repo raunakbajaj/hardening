@@ -19,6 +19,12 @@ fi
 function main {
   clear
 
+  # Get the directory where this script is located
+  SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+  
+  # Change to script directory to ensure relative paths work
+  cd "$SCRIPT_DIR"
+
   REQUIREDPROGS='arp dig ping w'
   REQFAILED=0
   for p in $REQUIREDPROGS; do

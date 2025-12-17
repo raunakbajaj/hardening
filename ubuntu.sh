@@ -186,6 +186,11 @@ sudo apt install -f -y
 
 set -euo pipefail
 
-chmod +x hardening.sh
+# Get the directory where this script is located
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
+chmod +x "$SCRIPT_DIR/hardening.sh"
+
+# Change to the script directory before running hardening.sh
+cd "$SCRIPT_DIR"
 ./hardening.sh
