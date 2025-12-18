@@ -150,59 +150,59 @@ function main {
   f_issue
   f_sudo
   f_logindefs
+  f_prelink
   # Confirmed end
 
   # Doubt start 
-  f_prelink
-  #f_aptget_configure
+  f_firewall
+  f_sshconfig
+  f_sshdconfig
+  f_cron
+  f_rhosts
+  f_umask
+  f_path
+  f_aptget_clean
+  f_systemddelta
+  f_post
+  f_checkreboot
   # Doubt end  
 
   #Issue start
-
+  #f_aptget_configure
   #Issue end
+
   # f_kernel  # COMMENTED: Kernel lockdown may break GUI drivers
-  #f_firewall
+  
   # f_disablenet  # COMMENTED: May disable network protocols GUI needs
   # f_disablefs  # COMMENTED: May disable filesystems GUI needs
   # f_disablemod  # COMMENTED: Disables USB, Bluetooth, sound - breaks GUI
   # f_systemdconf  # COMMENTED: Process limits too restrictive for GUI
   # f_logindconf  # COMMENTED: Auto-locks sessions, kills user processes - breaks GUI
   # f_fstab  # COMMENTED: Mount restrictions break GUI temp files and processes
-  
-  
-  
   # f_sysctl  # COMMENTED: Network restrictions may break GUI networking
   # f_limitsconf  # COMMENTED: Process limits too restrictive for GUI
-  
   # f_package_install  # COMMENTED: May install conflicting packages
   # f_psad  # COMMENTED: Aggressive intrusion detection may block GUI
-  
   # f_usbguard  # COMMENTED: Blocks USB devices - breaks GUI peripherals
-  
   # f_rkhunter  # COMMENTED: May interfere with GUI file operations
-  #f_sshconfig
-  #f_sshdconfig
+  
   # f_password  # COMMENTED: Strict password policies may lock out GUI users
-  #f_cron
+  
   # f_ctrlaltdel  # COMMENTED: Disables Ctrl+Alt+Del - may confuse GUI users
   # f_auditd  # COMMENTED: Aggressive auditing may slow down GUI
   # f_aide  # COMMENTED: File integrity checking may interfere with GUI
-  #f_rhosts
+  #
   # f_users  # COMMENTED: Removes system users that GUI might need
   # f_lockroot  # COMMENTED: Locks root account - may break GUI admin tasks
   # f_package_remove  # COMMENTED: Removes packages that GUI might depend on
   # f_suid  # COMMENTED: May break GUI applications that need elevated privileges
   # f_restrictcompilers  # COMMENTED: May break development tools in GUI
-  #f_umask
-  #f_path
+  
   # f_aa_enforce  # COMMENTED: AppArmor enforcement may break GUI applications
   # f_aide_post  # COMMENTED: File integrity checking may interfere with GUI
   # f_aide_timer  # COMMENTED: File integrity checking may interfere with GUI
   # f_aptget_noexec  # COMMENTED: /tmp remount operations fail in EC2 environment
-  #f_aptget_clean
-  #f_systemddelta
-  #f_post
-  #f_checkreboot
+  
 
   echo
 }
