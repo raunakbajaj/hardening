@@ -169,7 +169,7 @@ function main {
   f_kernel
   f_logindconf  
   f_suid
-  f_fstab
+  #f_fstab
   
   # Doubt end  
 
