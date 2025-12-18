@@ -165,11 +165,11 @@ function main {
   # Confirmed end
 
   # Doubt start 
-  #f_password
-  f_kernel
-  f_logindconf  
-  f_suid
-  #f_fstab
+  #f_password  # COMMENTED: Strict password policies prevent password changes
+  f_kernel  # COMMENTED: Kernel lockdown may break bootstrap process
+  f_logindconf  # COMMENTED: Session management may interfere with bootstrap
+  f_suid  # COMMENTED: SUID restrictions may break bootstrap tools
+  #f_fstab  # COMMENTED: Mount restrictions break bootstrap process
   
   # Doubt end  
 
