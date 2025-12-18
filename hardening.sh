@@ -154,8 +154,12 @@ function main {
 
   # Doubt start 
   f_prelink
-  f_aptget_configure
+  #f_aptget_configure
   # Doubt end  
+
+  #Issue start
+
+  #Issue end
   # f_kernel  # COMMENTED: Kernel lockdown may break GUI drivers
   #f_firewall
   # f_disablenet  # COMMENTED: May disable network protocols GUI needs
