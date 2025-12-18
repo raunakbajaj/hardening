@@ -139,9 +139,6 @@ function main {
   f_journalctl
   f_timesyncd
   f_resolvedconf
-  # Confirmed end
-
-  # Doubt start 
   f_adduser
   f_rootaccess
   f_coredump
@@ -149,6 +146,13 @@ function main {
   f_postfix
   f_apport
   f_motdnews
+  # Confirmed end
+
+  # Doubt start 
+  f_hosts
+  f_issue
+  f_sudo
+  f_logindefs
   # Doubt end  
   # f_kernel  # COMMENTED: Kernel lockdown may break GUI drivers
   #f_firewall
@@ -161,10 +165,7 @@ function main {
   #f_prelink
   #f_aptget_configure
   
-  #f_hosts
-  #f_issue
-  #f_sudo
-  #f_logindefs
+  
   # f_sysctl  # COMMENTED: Network restrictions may break GUI networking
   # f_limitsconf  # COMMENTED: Process limits too restrictive for GUI
   
