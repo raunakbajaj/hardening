@@ -165,9 +165,9 @@ function main {
   f_kernel  
   f_logindconf 
   f_suid  
-  # Confirmed end
+  
 
-  # Doubt start 
+  
   f_disablenet  # COMMENTED: May disable network protocols GUI needs
   f_disablefs  # COMMENTED: May disable filesystems GUI needs
   f_disablemod  # COMMENTED: Disables USB, Bluetooth, sound - breaks GUI
@@ -188,9 +188,9 @@ function main {
   f_aide_post  # COMMENTED: File integrity checking may interfere with GUI
   f_aide_timer  # COMMENTED: File integrity checking may interfere with GUI
   
-  # Doubt end  
+  # Confirmed end 
 
-  #Issue start
+  #Issue start  
   #f_aptget_configure
   #f_password  # COMMENTED: Strict password policies prevent password changes
   #f_fstab  # COMMENTED: Mount restrictions break bootstrap process
