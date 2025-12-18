@@ -146,13 +146,15 @@ function main {
   f_postfix
   f_apport
   f_motdnews
-  # Confirmed end
-
-  # Doubt start 
   f_hosts
   f_issue
   f_sudo
   f_logindefs
+  # Confirmed end
+
+  # Doubt start 
+  f_prelink
+  f_aptget_configure
   # Doubt end  
   # f_kernel  # COMMENTED: Kernel lockdown may break GUI drivers
   #f_firewall
@@ -162,8 +164,7 @@ function main {
   # f_systemdconf  # COMMENTED: Process limits too restrictive for GUI
   # f_logindconf  # COMMENTED: Auto-locks sessions, kills user processes - breaks GUI
   # f_fstab  # COMMENTED: Mount restrictions break GUI temp files and processes
-  #f_prelink
-  #f_aptget_configure
+  
   
   
   # f_sysctl  # COMMENTED: Network restrictions may break GUI networking
