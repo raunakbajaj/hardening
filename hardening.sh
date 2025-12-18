@@ -165,7 +165,7 @@ function main {
   # Confirmed end
 
   # Doubt start 
-  f_password
+  #f_password
   f_kernel
   f_logindconf  
   f_suid
